@@ -55,7 +55,8 @@ model.add(layers.Dense(64, activation='relu', input_shape=(10000,)))
 model.add(layers.Dense(4, activation='relu'))
 model.add(layers.Dense(46, activation='softmax'))
 
-model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc'])
+#model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc'])
+model.compile(optimizer='rmsprop', loss='mse', metrics=['acc'])
 
 x_val = x_train[:1000]
 practical_x_train = x_train[1000:]
@@ -63,7 +64,14 @@ practical_x_train = x_train[1000:]
 y_val = one_hot_train_labels[:1000]
 practical_y_train = one_hot_train_labels[1000:]
 
-history = model.fit(practical_x_train, practical_y_train, epochs=8, batch_size=512, validation_data=(x_val, y_val))
+history = model.fit(practical_x_train, practical_y_train, epochs=20, batch_size=512, validation_data=(x_val, y_val))
+
+
+result = model.evaluate(x_test, one_hot_test_labels)
+print(result)
+
+predictions = model.predict(x_test)
+print( np.argmax(predictions[0]) )
 
 '''
 loss = history.history['loss']
@@ -93,10 +101,3 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend()
 plt.show()
-
-
-result = model.evaluate(x_test, one_hot_test_labels)
-print(result)
-
-predictions = model.predict(x_test)
-print( np.argmax(predictions[0]) )

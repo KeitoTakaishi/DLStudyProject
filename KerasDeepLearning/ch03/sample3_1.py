@@ -1,3 +1,13 @@
+'''
+layer num = 1 epochs = 20 : [0.4957116237640381, 0.85488]
+layer num = 1 epochs = 4 : [0.3189006894493103, 0.87268]
+
+layer num = 2 epochs = 20 : [0.7439062911558151, 0.84984]
+layer num = 2 epochs = 4 : [0.3129247725868225, 0.87392]
+
+layer num = 3 epochs = 20 : [0.8126771096968651, 0.84856]
+layer num = 3 epochs = 4 : [0.3284707674694061, 0.86552]
+'''
 from keras.datasets import imdb
 import numpy as np
 from keras import models
@@ -47,7 +57,8 @@ y_test = np.asarray(test_labels).astype('float32')
 
 model = models.Sequential()
 model.add(layers.Dense(16, activation='relu', input_shape=(10000,)))
-model.add(layers.Dense(16, activation='relu'))
+# model.add(layers.Dense(16, activation='relu'))
+# model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
 #訓練データ
@@ -70,14 +81,25 @@ print(model.predict(x_test))
 
 
 history_dict = history.history
-loss_values = history_dict['loss']
-val_loss_values = history_dict['val_loss']
-epochs = range(1, len(loss_values) + 1)
+# loss_values = history_dict['loss']
+# val_loss_values = history_dict['val_loss']
+# epochs = range(1, len(loss_values) + 1)
+#
+# plt.plot(epochs, loss_values, 'bo', label='Training loss')
+# plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
+# plt.title('Training and validation loss')
+# plt.xlabel('Epochs')
+# plt.ylabel('Loss')
+# plt.legend()
+# plt.show()
 
-plt.plot(epochs, loss_values, 'bo', label='Training loss')
-plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
-plt.title('Training and validation loss')
+acc = history.history['acc']
+val_acc = history.history['val_acc']
+epochs = range(1, len(acc) + 1)
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.plot(epochs, val_acc, 'b', label='Validation acc')
+plt.title('Training and validation accuracy')
 plt.xlabel('Epochs')
-plt.ylabel('Loss')
+plt.ylabel('Accuracy')
 plt.legend()
 plt.show()
